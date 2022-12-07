@@ -1,6 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
+const HttpError = require('./models/http-error')
+
 const placesRoutes = require('./routes/places-routes')
 
 const app = express()
@@ -8,6 +10,11 @@ const app = express()
 app.use(bodyParser.json())
 
 app.use('/api/places', placesRoutes)
+
+app.use((req, res, next) => {
+  const error = new HttpError('Could not find this route.', 404)
+  throw error
+})
 
 // express sees use functions with 4 arguments as special, as an error handler
 app.use((error, req, res, next) => {
