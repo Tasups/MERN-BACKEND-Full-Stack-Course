@@ -1,0 +1,21 @@
+const express = require('express')
+const bodyParser = require('body-parser')
+
+const placesRoutes = require('./routes/places-routes')
+
+const app = express()
+
+app.use(bodyParser.json())
+
+app.use('/api/places', placesRoutes)
+
+// express sees use functions with 4 arguments as special, as an error handler
+app.use((error, req, res, next) => {
+  if(res.headerSent){
+    return next(error)
+  }
+  res.status(error.code || 500)
+  res.json({ message: error.message || 'An unknown error occured.' })
+})
+
+app.listen(8080)
