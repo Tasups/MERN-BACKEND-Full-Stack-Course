@@ -1,7 +1,7 @@
 const randomId = require('../randomNum')
 const HttpError = require('../models/http-error')
 
-const DUMMY_PLACES = [
+let DUMMY_PLACES = [
   {
     id: 'p1',
     title: 'Empire State Building',
@@ -12,7 +12,29 @@ const DUMMY_PLACES = [
     },
     address: "20 W 34th St, New York, NY 10001", 
     creator: "u1"
-  }
+  },
+  {
+    id: 'p2',
+    title: 'Alcatraz',
+    description: 'one of the most famous prisons in the world',
+    location: {
+      lat: 37.8269775,
+      long: -122.4229555
+    },
+    address: "San Francisco, CA 94133", 
+    creator: "u1"
+  },
+  {
+    id: 'p3',
+    title: "Peter's Basilica",
+    description: 'one of the most famous churches in the world',
+    location: {
+      lat: 41.9021667,
+      long: 12.4539367
+    },
+    address: "Piazza San Pietro, 00120 Città del Vaticano, Vatican City", 
+    creator: "u1"
+  },
 ]
 
 const getPlaceById = (req, res, next) => {
@@ -72,7 +94,8 @@ const updatePlace = (req, res, next) => {
 
 const deletePlace = (req, res, next) => {
   const placeId = req.params.id
-  DUMMY_PLACES.filter(p => p.id !== placeId)
+  DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id !== placeId)
+  DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id != placeId)
   res.status(200).json({ message: 'Deleted place.'})
 }
 
