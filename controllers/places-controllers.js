@@ -66,7 +66,6 @@ const getPlacesByUserId = (req, res, next) => {
 const createPlace = (req, res, next) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    console.log(errors)
     throw new HttpError('Invalid inputs, please check your data ', 422)
   }
   // the below translates to this for each value in the object destructured: 
@@ -89,8 +88,8 @@ const updatePlace = (req, res, next) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     // you can console.log(errors) to get more information on the errors
-    throw new HttpError('Invalid inputs, please check you data', 422)
-}
+    throw new HttpError('Invalid inputs, please check your data', 422)
+  }
 
   const { title, description } = req.body
   const placeId = req.params.pid
@@ -105,9 +104,11 @@ const updatePlace = (req, res, next) => {
 }
 
 const deletePlace = (req, res, next) => {
-  const placeId = req.params.id
+  const placeId = req.params.pid
+  if (!DUMMY_PLACES.find(p => p.id === placeId)) {
+    throw new HttpError('Cannot find a place with that id.', 404)
+  }
   DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id !== placeId)
-  DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id != placeId)
   res.status(200).json({ message: 'Deleted place.'})
 }
 
