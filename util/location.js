@@ -1,7 +1,7 @@
 const axios = require('axios')
 const HttpError = require('../models/http-error')
 
-const API_KEY = "checkGoogleDrive"
+const API_KEY = "AIzaSyD6GaD54rWqC5d0Rj0iowjhaKqBRnrqtcI"
 
 async function getCoordForAddress(address) {
   const response = await axios.get(
