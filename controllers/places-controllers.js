@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator')
 const randomId = require('../randomNum')
 const HttpError = require('../models/http-error')
 const getCoordsForAddress = require('../util/location')
+const Place = require('../models/place')
 
 let DUMMY_PLACES = [
   {
@@ -81,15 +82,21 @@ const createPlace = async (req, res, next) => {
     return next(error)
   }
 
-  const createdPlace = {
-    id: randomId(),
-    title,
+  const createdPlace = new Place({
+    title, 
     description,
-    address,
+    address, 
     location: coordinates,
-    creator,
+    image: 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.findingtheuniverse.com%2Fwp-content%2Fuploads%2F2020%2F07%2FEmpire-State-Building-view-from-uptown_by_Laurence-Norah-2.jpg&imgrefurl=https%3A%2F%2Fwww.findingtheuniverse.com%2Fempire-state-building-guide%2F&tbnid=HeDllicZZqG4zM&vet=12ahUKEwjtlfOy7fn7AhVEMlMKHSEOCp0QMygGegUIARDxAg..i&docid=Q9X7fpwcE6E2FM&w=2000&h=1333&q=image%20of%20empire%20state%20building%20new%20york&ved=2ahUKEwjtlfOy7fn7AhVEMlMKHSEOCp0QMygGegUIARDxAg',
+    creator
+  })
+  
+  try {
+    await createdPlace.save()
+  } catch (err) {
+    const error = new HttpError('Unable to create place.', 500)
+    return next(error)
   }
-  DUMMY_PLACES.push(createdPlace) // or unshift method
   
   res.status(201).json({ place: createdPlace })
 }
