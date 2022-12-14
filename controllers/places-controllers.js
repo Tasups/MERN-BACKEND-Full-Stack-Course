@@ -48,7 +48,10 @@ const getPlaceById = async (req, res, next) => {
   try {
     place = await Place.findById(placeId)
   } catch (err) {
-    const error = new HttpError('Could not find place with that id in the database.', 500)
+    const error = new HttpError(
+      'Could not find place with that id in the database. Please try again later', 
+      500
+      )
     return next(error)
   }
   
@@ -60,17 +63,27 @@ const getPlaceById = async (req, res, next) => {
   res.json({ place: place.toObject({ getters: true }) })
 }
 
-const getPlacesByUserId = (req, res, next) => {
+const getPlacesByUserId = async (req, res, next) => {
   const userId = req.params.uid
-  const places = DUMMY_PLACES.filter(p => {
-    return p.creator === userId
-  })
+  
+  let places
+  try {
+    places = await Place.find({ creator: userId })
+  } catch (err) {
+    const error = new HttpError(
+      'Could not find places with that user id in the database. Please try again later.', 
+      500
+      )
+    return next(error)
+  }
+  
   if(!places || places.length === 0){
+    const error = new HttpError('Could not find places with the provided user id.', 404)
     // return must be used here to cancel further function operations, throw does that on its own
-    return next(new HttpError('Could not find places with the provided user id.', 404))
+    return next(error)
     // next is used in asynchronous functions in express, which we will use due to accessing a DB
   }
-  res.json({ places })
+  res.json({ places: places.map(place => place.toObject({ getters: true })) })
 }
 
 const createPlace = async (req, res, next) => {
