@@ -41,16 +41,23 @@ let DUMMY_PLACES = [
   },
 ]
 
-const getPlaceById = (req, res, next) => {
+const getPlaceById = async (req, res, next) => {
   const placeId = req.params.pid
-  const place = DUMMY_PLACES.find(p => {
-    return p.id === placeId
-  })
-  if(!place){
-    throw new HttpError('Could not find a place with the provided place id.', 404)
-    // throw is used in a synchronous function, however, due to using a DB, we won't be doing that
+  
+  let place
+  try {
+    place = await Place.findById(placeId)
+  } catch (err) {
+    const error = new HttpError('Could not find place with that id in the database.', 500)
+    return next(error)
   }
-  res.json({ place })
+  
+  if(!place){
+    const error = new HttpError('Could not find place with that id.')
+    return next(error)
+  }
+  
+  res.json({ place: place.toObject({ getters: true }) })
 }
 
 const getPlacesByUserId = (req, res, next) => {
@@ -87,7 +94,7 @@ const createPlace = async (req, res, next) => {
     description,
     address, 
     location: coordinates,
-    image: 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.findingtheuniverse.com%2Fwp-content%2Fuploads%2F2020%2F07%2FEmpire-State-Building-view-from-uptown_by_Laurence-Norah-2.jpg&imgrefurl=https%3A%2F%2Fwww.findingtheuniverse.com%2Fempire-state-building-guide%2F&tbnid=HeDllicZZqG4zM&vet=12ahUKEwjtlfOy7fn7AhVEMlMKHSEOCp0QMygGegUIARDxAg..i&docid=Q9X7fpwcE6E2FM&w=2000&h=1333&q=image%20of%20empire%20state%20building%20new%20york&ved=2ahUKEwjtlfOy7fn7AhVEMlMKHSEOCp0QMygGegUIARDxAg',
+    image: 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.nps.gov%2Fcommon%2Fuploads%2Fcropped_image%2Fprimary%2FF0CEDDA8-CDA3-A365-792FF3B0EB0FCFF8.jpg%3Fwidth%3D1600%26quality%3D90%26mode%3Dcrop&imgrefurl=https%3A%2F%2Fwww.nps.gov%2Fplaces%2Fwhite-house.htm&tbnid=KP3K336FPMuhbM&vet=12ahUKEwiZpcHT8Pn7AhV0QEIHHULdAo0QMygDegUIARDuAQ..i&docid=RWp2QPYrEHnUeM&w=1599&h=900&q=white%20house&ved=2ahUKEwiZpcHT8Pn7AhV0QEIHHULdAo0QMygDegUIARDuAQ',
     creator
   })
   
