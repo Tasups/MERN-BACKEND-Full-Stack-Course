@@ -26,8 +26,16 @@ const DUMMY_USERS = [
   ]
 
 
-const getUsers = (req, res, next) => {
-  res.status(200).json({ users: DUMMY_USERS })
+const getUsers = async (req, res, next) => {
+  let users
+  try {
+    // using the empty object and '-password' is called using protection and not exposing the password
+    users = await User.find({}, '-password') 
+  } catch (err) {
+    const error = new HttpError('Cannot find users. Please try again later.', 500)
+    return next(error)
+  }
+  res.json({ users: users.map(user => user.toObject({ getters: true })) })
 }
 
 const signup = async (req, res, next) => {
