@@ -29,7 +29,7 @@ app.use((error, req, res, next) => {
 })
 
 mongoose
-  .connect('CHECK ENV FILE **MONGODB DATABASE CONNECTION FROM NODE TO MONGODB WITH DRIVER**')
+  .connect('mongodb+srv://jason_at_work:oUj893yELxfaltNX@cluster0.zsy1t.mongodb.net/mern_db_test?retryWrites=true&w=majority')
   .then(() => {
     app.listen(8080)
   })
