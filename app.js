@@ -29,7 +29,7 @@ app.use((error, req, res, next) => {
 })
 
 mongoose
-  .connect('look in .env file MONGODB DATABASE CONNECTION FROM NODE TO MONGODB WITH DRIVER')
+  .connect('.env file MONGODB DATABASE CONNECTION FROM NODE TO MONGODB WITH DRIVER')
   .then(() => {
     app.listen(8080)
   })
