@@ -4,27 +4,6 @@ const { validationResult } = require('express-validator')
 const User = require('../models/user')
 const HttpError = require('../models/http-error')
 
-const DUMMY_USERS = [
-    {
-      id: 'u1',
-      name: 'Jason Whisnant',
-      email: 'tasups@gmail.com',
-      password: 'testpassword'
-    },
-    {
-      id: 'u2',
-      name: 'Duncan McLeod',
-      email: 'dunleod@gmail.com',
-      password: 'duncandonuts'
-    },
-    {
-      id: 'u3',
-      name: 'Dolly Parton',
-      email: 'goat@hotmail.com',
-      password: 'dollpart'
-    },
-  ]
-
 
 const getUsers = async (req, res, next) => {
   let users
@@ -45,7 +24,7 @@ const signup = async (req, res, next) => {
     return next(error)
   }
 
-  const { name, email, password, places } = req.body
+  const { name, email, password } = req.body
   
   let existingUser
   
@@ -66,7 +45,7 @@ const signup = async (req, res, next) => {
     email,
     password,
     image: 'https://github.com/Tasups/MERN-Full-Stack-Course/blob/main/react-frontend-01-starting-setup/src/images/andrea_piacquadio.jpg?raw=true',
-    places
+    places: []
   })
   
   try {

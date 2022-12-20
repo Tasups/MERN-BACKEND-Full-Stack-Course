@@ -19,7 +19,7 @@ app.use((req, res, next) => {
   throw error
 })
 
-// express sees use functions with 4 arguments as special, as an error handler
+// express sees use functions with 4 arguments as special function, as an error handler
 app.use((error, req, res, next) => {
   if(res.headerSent){
     return next(error)
@@ -29,7 +29,7 @@ app.use((error, req, res, next) => {
 })
 
 mongoose
-  .connect('check .env file MONGODB DATABASE CONNECTION FROM NODE TO MONGODB WITH DRIVER')
+  .connect('')
   .then(() => {
     app.listen(8080)
   })
