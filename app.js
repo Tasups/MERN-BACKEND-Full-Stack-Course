@@ -11,6 +11,16 @@ const app = express()
 
 app.use(bodyParser.json())
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader(
+    'Access-Control-Allow-Headers', 
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  )
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
+  next()
+})
+
 app.use('/api/places', placesRoutes)
 app.use('/api/users', usersRoutes)
 
@@ -29,9 +39,9 @@ app.use((error, req, res, next) => {
 })
 
 mongoose
-  .connect('')
+  .connect('mongodb+srv://jason_at_work:oUj893yELxfaltNX@cluster0.zsy1t.mongodb.net/mernPlaces?retryWrites=true&w=majority')
   .then(() => {
-    app.listen(8080)
+    app.listen(8081)
   })
   .catch(err => {
     console.log(err)
