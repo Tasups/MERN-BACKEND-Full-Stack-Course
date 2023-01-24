@@ -59,7 +59,8 @@ const getPlacesByUserId = async (req, res, next) => {
 const createPlace = async (req, res, next) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    return next(HttpError('Invalid inputs, please check your data ', 422))
+    const error = new HttpError("Invalid inputs, please check your data ", 422);
+    return next(error);
   }
 
   const { title, description, address, creator } = req.body;
