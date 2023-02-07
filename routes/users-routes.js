@@ -16,7 +16,7 @@ router.post(
   fileUpload.single('image'),
   [
     check("name").not().isEmpty(),
-    check("email").normalizeEmail(), // Example@example.com => example@example.com
+    check("email").normalizeEmail().isEmail(), // Example@example.com => example@example.com
     check("password").isLength({ min: 8 }),
   ],
   usersControllers.signup
