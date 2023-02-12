@@ -44,7 +44,7 @@ const signup = async (req, res, next) => {
     name,
     email,
     password,
-    image: 'https://github.com/Tasups/MERN-Full-Stack-Course/blob/main/react-frontend-01-starting-setup/src/images/andrea_piacquadio.jpg?raw=true',
+    image: req.file.path,
     places: []
   })
   

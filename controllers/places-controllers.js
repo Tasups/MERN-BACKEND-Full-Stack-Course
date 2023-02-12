@@ -77,7 +77,7 @@ const createPlace = async (req, res, next) => {
     description,
     address, 
     location: coordinates,
-    image: 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.nps.gov%2Fcommon%2Fuploads%2Fcropped_image%2Fprimary%2FF0CEDDA8-CDA3-A365-792FF3B0EB0FCFF8.jpg%3Fwidth%3D1600%26quality%3D90%26mode%3Dcrop&imgrefurl=https%3A%2F%2Fwww.nps.gov%2Fplaces%2Fwhite-house.htm&tbnid=KP3K336FPMuhbM&vet=12ahUKEwiZpcHT8Pn7AhV0QEIHHULdAo0QMygDegUIARDuAQ..i&docid=RWp2QPYrEHnUeM&w=1599&h=900&q=white%20house&ved=2ahUKEwiZpcHT8Pn7AhV0QEIHHULdAo0QMygDegUIARDuAQ',
+    image: req.file.path,
     creator
   })
   

@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -12,6 +13,8 @@ const usersRoutes = require('./routes/users-routes')
 const app = express()
 
 app.use(bodyParser.json())
+
+app.use('/uploads/images', express.static(path.join('uploads', 'images')))
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -34,7 +37,7 @@ app.use((req, res, next) => {
 // express sees use functions with 4 arguments as special function, as an error handler
 app.use((error, req, res, next) => {
   if (req.file) {
-    fs.unlink(req.file.path, () => {
+    fs.unlink(req.file.path, (err) => {
       console.log(err)
     })
   }
