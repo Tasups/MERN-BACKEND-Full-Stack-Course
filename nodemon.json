@@ -1,0 +1,9 @@
+{
+  "env": {
+    "DB_USER": "jason_at_work",
+    "DB_PASSWORD": "oUj893yELxfaltNX",
+    "DB_NAME": "mernPlaces",
+    "GOOGLE_API_KEY": "AIzaSyD6GaD54rWqC5d0Rj0iowjhaKqBRnrqtcI",
+    "JWT_KEY": "totes_mcgoates_secret"
+  }
+}

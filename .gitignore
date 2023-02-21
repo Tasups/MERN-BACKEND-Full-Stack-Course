@@ -5,6 +5,7 @@
 
 # environment file
 .env
+nodemon.json
 
 # AWS Open Server for Postman online testing
 /util/awsOpenServer.txt
